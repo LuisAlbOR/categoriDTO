@@ -20,6 +20,7 @@ public class CategoriaController {
     @GetMapping("/categorias")
     public Page<DatosListadoCategoria> listarCategorias(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion){
         //return categoriaRepository.findAll(paginacion).map(DatosListadoCategoria::new);
+        //Se obtienen todas las categorias activas, haciendo la consulta con el estándar de JPA 
         return categoriaRepository.findByActivoTrue(paginacion).map(DatosListadoCategoria::new);
     }
 
@@ -35,6 +36,7 @@ public class CategoriaController {
         categoria.actualizarDatos(datosActualizarCategoria);
     }
 
+    //Se hace un borrado lógico del registro en la base de datos
     @DeleteMapping("/{id}")
     @Transactional
     public void eliminarCategoriaLogicamente(@PathVariable int id){
