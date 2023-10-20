@@ -1,7 +1,8 @@
 package edu.unach.categoriaDTO.controller;
 
-import edu.unach.categoriaDTO.categoria.CategoriaRepository;
-import edu.unach.categoriaDTO.categoria.DatosListadoCategoria;
+import edu.unach.categoriaDTO.categoria.*;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,8 +18,27 @@ public class CategoriaController {
     private CategoriaRepository categoriaRepository;
 
     @GetMapping("/categorias")
-    public Page<DatosListadoCategoria> listarMedicos(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion){
-        return categoriaRepository.findAll(paginacion).map(DatosListadoCategoria::new);
+    public Page<DatosListadoCategoria> listarCategorias(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion){
+        //return categoriaRepository.findAll(paginacion).map(DatosListadoCategoria::new);
+        return categoriaRepository.findByActivoTrue(paginacion).map(DatosListadoCategoria::new);
     }
 
+    @PostMapping
+    public void  registrarCategoria(@RequestBody @Valid DatosRegistroCategoria datosRegistroMedico){
+        categoriaRepository.save(new Categoria(datosRegistroMedico));
+    }
+
+    @PutMapping
+    @Transactional
+    public void actualizarCategoria(@RequestBody @Valid DatosActualizarCategoria datosActualizarCategoria){
+        Categoria categoria = categoriaRepository.getReferenceById(datosActualizarCategoria.id());
+        categoria.actualizarDatos(datosActualizarCategoria);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public void eliminarCategoriaLogicamente(@PathVariable int id){
+        Categoria categoria = categoriaRepository.getReferenceById(id);
+        categoria.desactivarCategoria();
+    }
 }

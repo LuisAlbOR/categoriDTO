@@ -22,4 +22,24 @@ public class Categoria {
 
     private int nivel;
 
+    private boolean activo;
+
+    //Constructor para crear un nuevo registro en la BD con el método POST
+    public Categoria(DatosRegistroCategoria datosRegistroMedico) {
+        this.nombre = datosRegistroMedico.nombre();
+        this.nivel = datosRegistroMedico.nivel();
+    }
+
+    public void actualizarDatos(DatosActualizarCategoria datosActualizarCategoria) {
+        if(datosActualizarCategoria.nombre() != null){
+            this.nombre = datosActualizarCategoria.nombre();
+        }
+        if(datosActualizarCategoria.nivel() != 0 && datosActualizarCategoria.nivel() > 0){
+            this.nivel = datosActualizarCategoria.nivel();
+        }
+    }
+
+    public void desactivarCategoria() {
+        this.activo = false;
+    }
 }
