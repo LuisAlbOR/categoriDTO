@@ -17,12 +17,32 @@ public class CategoriaController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    //Connsulta de todas las categorias
     @GetMapping("/categorias")
     public Page<DatosListadoCategoria> listarCategorias(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion){
         //return categoriaRepository.findAll(paginacion).map(DatosListadoCategoria::new);
-        //Se obtienen todas las categorias activas, haciendo la consulta con el estándar de JPA 
+        //Se obtienen todas las categorias activas, haciendo la consulta con el estándar de JPA
         return categoriaRepository.findByActivoTrue(paginacion).map(DatosListadoCategoria::new);
     }
+
+    //Consulta de todas las categorias de cierto nivel
+    @GetMapping("/nivel/{nivel}")
+    public Page<DatosListadoCategoriaNivel> listarCategoriaNive(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion, @PathVariable int nivel){
+        return categoriaRepository.findByNivel(paginacion, nivel).map(DatosListadoCategoriaNivel::new);
+    }
+
+    //Consulta de la categoria por el nombre de la misma
+    @GetMapping("/nombre/{nombre}")
+    public Page<DatosListadoCategoriaNombre> listarCategoriaNombre(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion, @PathVariable String nombre){
+        return categoriaRepository.findByNombre(paginacion, nombre).map(DatosListadoCategoriaNombre::new);
+    }
+
+    //Consulta de la categoria por el id de la misma
+    @GetMapping("/{id}")
+    public Page<DatosListadoCategoria> listarCategoriaId(@PageableDefault(page = 0, size = 5, sort = {"nombre"}) Pageable paginacion, @PathVariable int id){
+        return categoriaRepository.findById(paginacion, id).map(DatosListadoCategoria::new);
+    }
+
 
     @PostMapping
     public void  registrarCategoria(@RequestBody @Valid DatosRegistroCategoria datosRegistroMedico){
