@@ -1,4 +1,4 @@
-package edu.unach.categoriaDTO.categoria;
+package edu.unach.categoriaDTO.domain.categoria;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +9,5 @@ public interface CategoriaRepository extends JpaRepository<Categoria,Integer> {
 
     Page<Categoria> findByNivel(Pageable paginacion, int nivel);
 
-    Page<Categoria> findByNombre(Pageable paginacion, String nombre);
-
-    Page<Categoria> findById(Pageable paginacion, int id);
+    Categoria getReferenceByNombre(String nombre);
 }

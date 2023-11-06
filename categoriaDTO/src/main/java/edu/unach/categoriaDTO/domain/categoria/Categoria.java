@@ -1,4 +1,4 @@
-package edu.unach.categoriaDTO.categoria;
+package edu.unach.categoriaDTO.domain.categoria;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

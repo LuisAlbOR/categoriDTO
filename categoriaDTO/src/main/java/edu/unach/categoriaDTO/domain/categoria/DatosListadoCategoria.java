@@ -1,4 +1,4 @@
-package edu.unach.categoriaDTO.categoria;
+package edu.unach.categoriaDTO.domain.categoria;
 
 public record DatosListadoCategoria(int id, String nombre, int nivel) {
 
